@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -27,6 +28,10 @@ public class AccountReplenishment {
         var firstNamedebitSource = By.xpath("//*[@data-qa-node='firstNamedebitSource']");
         var lastNamedebitSource = By.xpath("//*[@data-qa-node='lastNamedebitSource']");
 
+        var amountAssertion = By.xpath("//div[@data-qa-node='amount']");
+        var cardAssertion = By.xpath("//td[@data-qa-node='card']");
+        var detailsAssertion = By.xpath("//div[@data-qa-node='details']");
+
         driver.get("https://next.privat24.ua/mobile");
 
         driver.findElement(phoneCode).click();
@@ -41,5 +46,9 @@ public class AccountReplenishment {
         driver.findElement(firstNamedebitSource).sendKeys("Vasia");
         driver.findElement(lastNamedebitSource).sendKeys("Kachur");
         driver.findElement(submit).click();
+
+        Assertions.assertEquals(driver.findElement(amountAssertion).getText(), "70 UAH");
+        Assertions.assertEquals(driver.findElement(cardAssertion).getText(), "4004 **** **** 9003");
+        Assertions.assertTrue(driver.findElement(detailsAssertion).getText().contains("+380978166120"));
     }
 }
